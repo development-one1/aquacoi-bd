@@ -362,6 +362,83 @@ export interface AdminUser extends Schema.CollectionType {
   };
 }
 
+export interface ApiArticleArticle extends Schema.CollectionType {
+  collectionName: 'articles';
+  info: {
+    description: '';
+    displayName: 'Blog';
+    pluralName: 'articles';
+    singularName: 'article';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    article: Attribute.Relation<
+      'api::article.article',
+      'oneToOne',
+      'api::article.article'
+    >;
+    categoryBlog: Attribute.String;
+    content: Attribute.RichText;
+    createdAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::article.article',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    description: Attribute.Text;
+    imagen: Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    publishedAt: Attribute.DateTime;
+    slug: Attribute.UID<'api::article.article', 'categoryBlog'>;
+    updatedAt: Attribute.DateTime;
+    updatedBy: Attribute.Relation<
+      'api::article.article',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiCategoriaBlogCategoriaBlog extends Schema.CollectionType {
+  collectionName: 'categoria_blogs';
+  info: {
+    description: '';
+    displayName: 'Categorias blog';
+    pluralName: 'categoria-blogs';
+    singularName: 'categoria-blog';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    article: Attribute.Relation<
+      'api::categoria-blog.categoria-blog',
+      'oneToOne',
+      'api::article.article'
+    >;
+    createdAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::categoria-blog.categoria-blog',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    name: Attribute.String;
+    publishedAt: Attribute.DateTime;
+    slug: Attribute.UID<'api::categoria-blog.categoria-blog', 'name'>;
+    updatedAt: Attribute.DateTime;
+    updatedBy: Attribute.Relation<
+      'api::categoria-blog.categoria-blog',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiCategoryCategory extends Schema.CollectionType {
   collectionName: 'categories';
   info: {
@@ -388,6 +465,36 @@ export interface ApiCategoryCategory extends Schema.CollectionType {
     updatedAt: Attribute.DateTime;
     updatedBy: Attribute.Relation<
       'api::category.category',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiGlobalGlobal extends Schema.SingleType {
+  collectionName: 'globals';
+  info: {
+    displayName: 'Global';
+    pluralName: 'globals';
+    singularName: 'global';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::global.global',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    publishedAt: Attribute.DateTime;
+    siteName: Attribute.String;
+    updatedAt: Attribute.DateTime;
+    updatedBy: Attribute.Relation<
+      'api::global.global',
       'oneToOne',
       'admin::user'
     > &
@@ -431,6 +538,44 @@ export interface ApiProductProduct extends Schema.CollectionType {
     updatedAt: Attribute.DateTime;
     updatedBy: Attribute.Relation<
       'api::product.product',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiWriterWriter extends Schema.CollectionType {
+  collectionName: 'writers';
+  info: {
+    description: '';
+    displayName: 'Writer';
+    pluralName: 'writers';
+    singularName: 'writer';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    article: Attribute.Relation<
+      'api::writer.writer',
+      'oneToOne',
+      'api::article.article'
+    >;
+    createdAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::writer.writer',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    email: Attribute.String;
+    name: Attribute.String;
+    picture: Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    publishedAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    updatedBy: Attribute.Relation<
+      'api::writer.writer',
       'oneToOne',
       'admin::user'
     > &
@@ -874,8 +1019,12 @@ declare module '@strapi/types' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
+      'api::article.article': ApiArticleArticle;
+      'api::categoria-blog.categoria-blog': ApiCategoriaBlogCategoriaBlog;
       'api::category.category': ApiCategoryCategory;
+      'api::global.global': ApiGlobalGlobal;
       'api::product.product': ApiProductProduct;
+      'api::writer.writer': ApiWriterWriter;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;
